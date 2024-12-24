@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <title>Stop Watch Tailwind</title>
+  </head>
+  <body
+    class="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white"
+  >
+    <div
+      class="bg-gradient-to-r from-gray-700 to-gray-800 shadow-2xl rounded-2xl p-8 max-w-sm w-full"
+    >
+      <h1 class="text-4xl font-extrabold text-center text-gray-100 mb-6">
+        Stopwatch ⏰
+      </h1>
+      <!-- timer display -->
+      <div
+        id="time-dispaly"
+        class="text-6xl font-mono text-center text-gray-200 rounded-lg py-4 mb-8 shadow-lg"
+      >
+        00:00:00
+      </div>
+
+      <button
+        id="start-btn"
+        class="bg-green-600 text-gray-100 px-8 py-3 rounded-lg shadow-lg shadow-md hover:bg-green-700 transition-transform"
+      >
+        Start
+      </button>
+
+      <button
+        id="stop-btn"
+        class="bg-red-600 text-gray-100 px-8 py-3 rounded-lg shadow-lg shadow-md hover:bg-red-700 transition-transform"
+      >
+        Stop
+      </button>
+
+      <button
+        id="reset-btn"
+        class="bg-blue-600 text-gray-100 px-8 py-3 rounded-lg shadow-lg shadow-md hover:bg-blue-700 transition-transform"
+      >
+        Reset
+      </button>
+    </div>
+  </body>
+  <script>
+    let timer = null;
+    let elapsedseconds = 0;
+    let timedispaly = document.getElementById("time-dispaly");
+    let startbtn = document.getElementById("start-btn");
+    let stopbtn = document.getElementById("stop-btn");
+    let resetbtn = document.getElementById("reset-btn");
+
+    function formatTime(seconds) {
+      const hrs = String(Math.floor(seconds / 3600)).padStart(2, "0");
+      const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+      const secs = String(Math.floor(seconds % 60)).padStart(2, "0");
+      return `${hrs}:${mins}:${secs}`;
+    }
+
+    function updateTimeDisplay() {
+      timedispaly.textContent = formatTime(elapsedseconds);
+    }
+    startbtn.addEventListener("click", () => {
+      if (timer === null) {
+        timer = setInterval(() => {
+          elapsedseconds += 1;
+          updateTimeDisplay();
+        }, 1000);
+      }
+    });
+
+    stopbtn.addEventListener("click", () => {
+      clearInterval(timer);
+      timer = null;
+    });
+
+    resetbtn.addEventListener("click",()=>{
+      clearInterval(timer);
+      timer = null;
+      elapsedseconds = 0;
+      updateTimeDisplay();
+    })
+
+    updateTimeDisplay();
+  </script>
+</html>
